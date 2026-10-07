@@ -1769,16 +1769,23 @@ const VE_LOOKUP_DATA = {"d": ["VS-110-BRN", "VS-110-BRN (CF)", "VS-110-BRN(", "V
 const VE_DESCS = VE_LOOKUP_DATA.d;
 const VE_SERIAL_MAP = VE_LOOKUP_DATA.m;
 
+// ONE Apps Script for all five data tabs, bound to the new "Test FG Dataset"
+// spreadsheet (see OQA-Code.gs). Paste its Web App URL (ending in /exec)
+// below. While this is blank, each tab keeps using its old link further down.
+// The tab is chosen by the end of the URL: /fg, /semifg, /ve, /rma, /g3n.
+const OQA_SCRIPT_URL = '';
+const oqaTabUrl = (tab, oldUrl) => OQA_SCRIPT_URL ? OQA_SCRIPT_URL.replace(/\/+$/, '') + '/' + tab : oldUrl;
+
 // Read/write Apps Script deployment for the NEW OQA SemiFG Data sheet. Used
 // both by the Lookup tab's manual search box AND by the SemiFG Lot Setup
 // description auto-fill below (GET), and also by SemiFG's Export button (POST)
 // — see SEMI_SHEETS_URL further down, which points at this same script.
-const SEMI_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbzqdX-a7zu8T285iWIWs_e_hAP_lZ_rfx7q6owb0ZA_vNJQjfNW_aFz6fv4YXqkzg/exec';
+const SEMI_LOOKUP_URL = oqaTabUrl('semifg', 'https://script.google.com/macros/s/AKfycbzqdX-a7zu8T285iWIWs_e_hAP_lZ_rfx7q6owb0ZA_vNJQjfNW_aFz6fv4YXqkzg/exec');
 
 // Same idea for the NEW OQA FG Data sheet — read/write, used by the Lookup
 // tab AND by the FG Lot Setup description auto-fill below (GET), and by FG's
 // Export button (POST) — see SHEETS_URL further down, which points here too.
-const FG_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbwFv6lNxasN6tggn8xBisP-7a1rHDDSBDx4Y2LP5gPhjYdGVEBqunBumxvGJNx5n-FD7w/exec';
+const FG_LOOKUP_URL = oqaTabUrl('fg', 'https://script.google.com/macros/s/AKfycbwFv6lNxasN6tggn8xBisP-7a1rHDDSBDx4Y2LP5gPhjYdGVEBqunBumxvGJNx5n-FD7w/exec');
 
 // Read/write Apps Script deployment for the "Vision Expert" OQA Data sheet
 // (mirrors the OQA FG Data 2026 sheet layout: Date, WW, Month, Inspected by,
@@ -1790,14 +1797,14 @@ const FG_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbwFv6lNxasN6tggn8
 // PASTE_YOUR_VISION_EXPERT_APPS_SCRIPT_URL_HERE — deploy a Code.gs bound to
 // the Vision Expert sheet (same shape as the FG/SemiFG one) and paste its
 // Web App URL below.
-const VE_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbwFuaWsJmMWPnxrWKKY91UJu3o8cjMAUXan8hSNBZyd8YAXt1fkgV9aYd3eNFW-l9hBQA/exec';
+const VE_LOOKUP_URL = oqaTabUrl('ve', 'https://script.google.com/macros/s/AKfycbwFuaWsJmMWPnxrWKKY91UJu3o8cjMAUXan8hSNBZyd8YAXt1fkgV9aYd3eNFW-l9hBQA/exec');
 
 // Read/write Apps Script deployment for the RMA (3G Camera Module) OQA sheet.
 // Same one-script-one-sheet pattern as FG/SemiFG/VE above.
 // PASTE_YOUR_RMA_APPS_SCRIPT_URL_HERE — deploy a Code.gs bound to the RMA
 // sheet (same shape as the others) and paste its Web App URL below.
-const RMA_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbwRYohvMcHvK4kdcziGGdA9wvvn8Zr5wf9zpXRviG_1rtTdONBCxUhhyTxZoX7Lc8bA/exec';
-const G3N_LOOKUP_URL = 'https://script.google.com/macros/s/AKfycbwU8b7tu8sR5dpzl5xu6_dRFz4mzf83JWuirnm_YeEWv-QyyVgFIkjomwuapfMSqLF9Sg/exec';
+const RMA_LOOKUP_URL = oqaTabUrl('rma', 'https://script.google.com/macros/s/AKfycbwRYohvMcHvK4kdcziGGdA9wvvn8Zr5wf9zpXRviG_1rtTdONBCxUhhyTxZoX7Lc8bA/exec');
+const G3N_LOOKUP_URL = oqaTabUrl('g3n', 'https://script.google.com/macros/s/AKfycbwU8b7tu8sR5dpzl5xu6_dRFz4mzf83JWuirnm_YeEWv-QyyVgFIkjomwuapfMSqLF9Sg/exec');
 
 // Shared secret sent with every GET/POST to any of the OQA Apps Script
 // endpoints above. Each Apps Script backend now checks this against its own
